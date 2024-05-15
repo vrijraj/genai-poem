@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <h1 style="margin-bottom: 0;">Google Generative AI- Poem Generator</h1>
+    <p style="margin-top: 0;">Generate Poem from Google Gemini</p>
+    <input type="text" id="topic" placeholder="Enter Topic" />
+    <button id="generateBtn">Generate</button>
+    <p id="loader">Loading...</p>
+    
+    <div class="res" id="response">
+      <h3 style="margin: 0;">Result:</h3>
+      <div id="output"></div>
+    </div>
+
+    <!-- ... Your HTML and CSS -->
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+      </script>
+
+    <script type="module">
+        document.getElementById('loader').style.display = 'none'
+        document.getElementById('response').style.display = 'none'
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+        const API_KEY = "YOUR_API_KEY";
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
+
+        async function run() {
+            document.getElementById("output").innerHTML=''
+            document.getElementById('loader').style.display = 'block'
+            document.getElementById('response').style.display = 'none'
+            const topic = document.getElementById("topic").value;
+            // For text-only input, use the gemini-pro model
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
+            const prompt = `Create a poem on ${topic}.`;
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+            document.getElementById('loader').style.display = 'none'
+            document.getElementById('response').style.display = 'block'
+            document.getElementById("output").innerHTML = text;
+        }
+
+        document.getElementById("generateBtn").addEventListener("click", run);
+
+    </script>
+
+</body>
+
+</html>
