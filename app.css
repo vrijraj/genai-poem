@@ -1,0 +1,12 @@
+body{
+    max-width: 1024px;
+    margin: auto;
+    padding: 5%;
+}
+
+.res{
+    background-color: #F6F8FC;
+    padding: 2%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
